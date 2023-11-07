@@ -1,7 +1,7 @@
 body {
   background-color: #83d555;
   display: flex;
-  font-family: 'Muli', sans-serif;
+  font-family: 'Baskerville', sans-serif;
 }
 
 .contract, .existing-contracts {
@@ -16,6 +16,7 @@ h1 {
   margin: 10px;
   padding: 10px;
   border-bottom: 1px solid #eee;
+  font-family: Luminari, serif;
 }
 
 label {
@@ -42,6 +43,7 @@ input[type="text"] {
   font-size: 14px;
   letter-spacing: 1px;
   cursor: pointer;
+  font-family: Luminari, serif;
 }
 
 .existing-contract ul {
@@ -81,6 +83,7 @@ input[type="text"] {
   1px 1px 1px #000,
   10px 10px 70px #333,
   inset 10px 10px 20px rgba(0,0,0,0.4);
+  font-family: Luminari, serif;
 }
 .Header > h1 {
   text-shadow: 0 0 1px #000,
@@ -91,7 +94,6 @@ input[type="text"] {
   0 3px 3px rgba(0,0,0,0.5),
   0 4px 10px rgba(0,0,0,0.5);
   text-align: center;
-  font-family: Georgia, serif;
 }
 
 .Header > p {
