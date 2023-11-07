@@ -49,7 +49,7 @@ function App() {
         await approve(escrowContract, signer);
       },
     };
-
+    escrow.date = Date();
     setEscrows([...escrows, escrow]);
   }
 
@@ -62,7 +62,7 @@ function App() {
             </div>
             <div className="readme">
                 <h1>Instructions</h1>
-                <p><ol>
+                <div><ol>
                     <li>The depositor / purchaser should log in with their Web3 wallet</li>
                     <li>They enter in the details -
                         <ol>
@@ -76,7 +76,7 @@ function App() {
                     <li>Once happy they hit approve and the funds will be transferred to the beneficiary / seller.</li>
                     <li>The Arbiter can see all deposits waiting for approval and a historical list of those they have already approved.</li>
                     <li>They can hit the <code>delete</code> button to remove from the list.</li>
-                </ol></p>
+                </ol></div>
             </div>
             <div className="contract">
                 <h1> New Contract </h1>
