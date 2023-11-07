@@ -60,6 +60,24 @@ function App() {
                 <h1>Larry's triptastic Escrow service</h1>
                 <p>Trust us! After all, its all on-chain.</p>
             </div>
+            <div className="readme">
+                <h1>Instructions</h1>
+                <p><ol>
+                    <li>The depositor / purchaser should log in with their Web3 wallet</li>
+                    <li>They enter in the details -
+                        <ol>
+                            <li>The Arbiter is who will coordinate and approve the transfer of money and goods.</li>
+                            <li>The beneficiary is who is selling their goods and receiving the deposit / payment.</li>
+                                <li>The deposit amount is in Ethereum.  (Coming!  Deposit from a larger seelction of cryptocurrencies).</li>
+                        </ol>
+                    </li>
+                    <li>...and hit deposit</li>
+                    <li>The Arbiter logs in with their Web3 wallet to confirm the deposit and coordinate the physical transfer of the goods being sold.</li>
+                    <li>Once happy they hit approve and the funds will be transferred to the beneficiary / seller.</li>
+                    <li>The Arbiter can see all deposits waiting for approval and a historical list of those they have already approved.</li>
+                    <li>They can hit the <code>delete</code> button to remove from the list.</li>
+                </ol></p>
+            </div>
             <div className="contract">
                 <h1> New Contract </h1>
                 <label>
