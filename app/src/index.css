@@ -9,7 +9,7 @@ body {
   display: inline-block;
   padding: 40px;
   border: 1px solid #000000;
-  background-color: #d58686;
+  background-color: #c74747;
 }
 
 h1 {
@@ -23,7 +23,7 @@ label {
   display: flex;
   flex-direction: column;
   text-transform: uppercase;
-  color: #054f06;
+  color: #ffffff;
   margin: 20px;
 }
 
