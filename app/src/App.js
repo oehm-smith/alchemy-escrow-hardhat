@@ -30,6 +30,10 @@ function App() {
         const beneficiary = document.getElementById('beneficiary').value;
         const arbiter = document.getElementById('arbiter').value;
         const value = ethers.BigNumber.from(document.getElementById('wei').value);
+        return doNewContract({ beneficiary, arbiter, value, signer });
+    }
+
+    async function doNewContract({ beneficiary, arbiter, value, signer }) {
         const escrowContract = await deploy(signer, arbiter, beneficiary, value);
 
 
@@ -37,19 +41,25 @@ function App() {
             address: escrowContract.address,
             arbiter,
             beneficiary,
+            signer,
             value: value.toString(),
-            handleApprove: async () => {
-                escrowContract.on('Approved', () => {
-                    document.getElementById(escrowContract.address).className =
-                        'complete';
-                    document.getElementById(escrowContract.address).innerText =
-                        "✓ It's been approved!";
-                });
+            date: Date(),
+            status: 'deployed',
+            escrow: null, // this
+        }
+        escrow.escrow = escrow;
 
-                await approve(escrowContract, signer);
-            },
-        };
-        escrow.date = Date();
+        escrow.handleApprove = async () => {
+            escrowContract.on('Approved', () => {
+                document.getElementById(escrowContract.address).className =
+                    'complete';
+                document.getElementById(escrowContract.address).innerText =
+                    "✓ It's been approved!";
+                escrow.status = "approved";
+            });
+
+            await approve(escrowContract, signer);
+        }
         setEscrows([...escrows, escrow]);
     }
 
