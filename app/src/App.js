@@ -1,7 +1,8 @@
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import deploy from './deploy';
+import { deploy, deployExisting } from './deploy';
 import Escrow from './Escrow';
+import { store } from "./storage"
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -41,13 +42,12 @@ function App() {
             address: escrowContract.address,
             arbiter,
             beneficiary,
-            signer,
             value: value.toString(),
             date: Date(),
             status: 'deployed',
             escrow: null, // this
         }
-        escrow.escrow = escrow;
+        // escrow.escrow = escrow;
 
         escrow.handleApprove = async () => {
             escrowContract.on('Approved', () => {
@@ -56,11 +56,13 @@ function App() {
                 document.getElementById(escrowContract.address).innerText =
                     "✓ It's been approved!";
                 escrow.status = "approved";
+                store(escrow);
             });
 
             await approve(escrowContract, signer);
         }
         setEscrows([...escrows, escrow]);
+        store(escrow);
     }
 
     return (
