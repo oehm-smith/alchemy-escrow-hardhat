@@ -28,15 +28,12 @@ function App() {
      * @param escrow
      */
     function setEscrowsAppend(escrow) {
-        console.debug(`setEscrowsAppend - add escrow w address: ${escrow.address} to filtered list:`)
+        console.debug(`setEscrowsAppend - add or update escrow w address: ${escrow.address} to filtered list:`)
         console.debug(`  ${JSON.stringify(escrows, null, 2)}`);
-        setEscrows(prevEscrow => {
-            if (escrowExists(escrow, prevEscrow)) {
-                console.debug(`    NOPE - escrow exists in list`)
-                return prevEscrow
-            } else {
-                return [...prevEscrow, escrow]
-            }
+        const newEscrow = {...escrow};
+        setEscrows(prevEscrows => {
+            const filteredEscrows = prevEscrows.filter(e => e.address !== newEscrow.address);
+            return [...filteredEscrows, newEscrow]
         });
         console.log(`   ... escrows size now: ${escrows.length}`)
     }
@@ -44,13 +41,13 @@ function App() {
     function removeEscrow(escrow) {
         console.debug(`removeEscrow - remove escrow w address: ${escrow.address} to filtered list:`)
         console.debug(`  ${JSON.stringify(escrows, null, 2)}`);
-        setEscrows(prevEscrow => {
-            if (escrowExists(escrow, prevEscrow)) {
+        setEscrows(prevEscrows => {
+            if (escrowExists(escrow, prevEscrows)) {
                 console.debug(`    YEP - escrow exists in list`)
-                return prevEscrow.filter(e => e.address !== escrow.address);
+                return prevEscrows.filter(e => e.address !== escrow.address);
             } else {
                 console.debug(`    NOPE - escrow doesn't exist in list`)
-                return prevEscrow
+                return prevEscrows
             }
         });
         console.log(`   ... escrows size now: ${escrows.length}`)
@@ -100,21 +97,26 @@ function App() {
             value: value.toString(),
             date: Date(),
             status: 'deployed',
-            escrow: null, // this
+            // escrow: null, // this
         }
         // escrow.escrow = escrow;
 
         escrow.handleApprove = async () => {
             escrowContract.on('Approved', () => {
-                document.getElementById(escrowContract.address).className =
-                    'complete';
-                document.getElementById(escrowContract.address).innerText =
-                    "✓ It's been approved!";
+                // document.getElementById(escrowContract.address).className =
+                //     'complete';
+                // document.getElementById(escrowContract.address).innerText =
+                //     "✓ It's been approved!";
                 escrow.status = "approved";
+                setEscrowsAppend(escrow);
                 store(escrow);
             });
 
             await approve(escrowContract, signer);
+        }
+        escrow.handleRemove = async () => {
+            removeEscrow(escrow);
+            remove(escrow);
         }
         setEscrowsAppend(escrow);
         store(escrow);
@@ -129,15 +131,20 @@ function App() {
         const escrowContract = await deployExisting(address, signer);
         escrow.handleApprove = async () => {
             escrowContract.on('Approved', () => {
-                document.getElementById(escrowContract.address).className =
-                    'complete';
-                document.getElementById(escrowContract.address).innerText =
-                    "✓ It's been approved!";
+                // document.getElementById(escrowContract.address).className =
+                //     'complete';
+                // document.getElementById(escrowContract.address).innerText =
+                //     "✓ It's been approved!";
                 escrow.status = "approved";
+                setEscrowsAppend(escrow);
                 store(escrow);
             });
 
             await approve(escrowContract, signer);
+        }
+        escrow.handleRemove = async () => {
+            removeEscrow(escrow);
+            remove(escrow);
         }
         setEscrowsAppend(escrow);
         store(escrow);
@@ -192,7 +199,7 @@ function App() {
                             <li>The Arbiter can see all deposits waiting for approval and a historical list of those
                                 they have already approved.
                             </li>
-                            <li>They can hit the <code>delete</code> button to remove from the list.</li>
+                            <li>They can hit the <code>Delete</code> button to remove from the list.</li>
                         </ol>
                     </div>
                 </div>
