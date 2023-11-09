@@ -184,7 +184,7 @@ function App() {
                                     <li>The beneficiary is who is selling their goods and receiving the deposit /
                                         payment.
                                     </li>
-                                    <li>The deposit amount is in Ethereum. (Coming! Deposit from a larger seelction of
+                                    <li>The deposit amount is in Ethereum. (Coming soon! Deposit from a larger seelction of
                                         cryptocurrencies).
                                     </li>
                                 </ol>
