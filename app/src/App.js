@@ -111,19 +111,19 @@ function App() {
             console.log(`  deployed contract already read-in`);
             return;
         }
-        // const escrowContract = deployExisting(address, signer);
-        // escrow.handleApprove = async () => {
-        //     escrowContract.on('Approved', () => {
-        //         document.getElementById(escrowContract.address).className =
-        //             'complete';
-        //         document.getElementById(escrowContract.address).innerText =
-        //             "✓ It's been approved!";
-        //         escrow.status = "approved";
-        //         store(escrow);
-        //     });
-        //
-        //     await approve(escrowContract, signer);
-        // }
+        const escrowContract = await deployExisting(address, signer);
+        escrow.handleApprove = async () => {
+            escrowContract.on('Approved', () => {
+                document.getElementById(escrowContract.address).className =
+                    'complete';
+                document.getElementById(escrowContract.address).innerText =
+                    "✓ It's been approved!";
+                escrow.status = "approved";
+                store(escrow);
+            });
+
+            await approve(escrowContract, signer);
+        }
         setEscrowsAppend(escrow);
         store(escrow);
     }
