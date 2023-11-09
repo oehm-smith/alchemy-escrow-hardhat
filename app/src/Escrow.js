@@ -5,7 +5,37 @@ export default function Escrow({
                                    value,
                                    date,
                                    handleApprove,
+                                   status
                                }) {
+    const buttonMarkup = (() => {
+        switch (status) {
+            case "approved":
+                return (
+                    <div
+                        className="complete"
+                        id={address}
+                    >
+                        ✓ It's been approved!
+                    </div>
+                );
+            case "deployed":
+                return (
+                    <div
+                        className="button"
+                        id={address}
+                        onClick={(e) => {
+                            e.preventDefault();
+
+                            handleApprove();
+                        }}
+                    >
+                        Approve
+                    </div>
+                );
+            default:
+                throw new Error(`Unknown status: ${status}`);
+        }
+    })();
     return (
         <div className="existing-contract">
             <ul className="fields">
@@ -25,17 +55,8 @@ export default function Escrow({
                     <div> Value</div>
                     <div> {value} </div>
                 </li>
-                <div
-                    className="button"
-                    id={address}
-                    onClick={(e) => {
-                        e.preventDefault();
+                {buttonMarkup}
 
-                        handleApprove();
-                    }}
-                >
-                    Approve
-                </div>
             </ul>
         </div>
     );

@@ -79,8 +79,8 @@ export const read = () => {
     const jsonString = window.localStorage.getItem(key);
     if (jsonString) {
         const escrowsObj = JSON.parse(jsonString);
-        console.log(`Read Escrows from storage: ${JSON.stringify(escrowsObj)}`);
-        console.log(`  size is: ${Object.keys(escrowsObj).length}`)
+        // console.log(`Read Escrows from storage: ${JSON.stringify(escrowsObj)}`);
+        // console.log(`  size is: ${Object.keys(escrowsObj).length}`)
         return escrowsObj;
     } else {
         console.log(`The escrows storage is currently empty.`)

@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { deploy, deployExisting } from './deploy';
 import Escrow from './Escrow';
-import { store } from "./storage"
+import { read, store } from "./storage"
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -16,6 +16,31 @@ function App() {
     const [account, setAccount] = useState();
     const [signer, setSigner] = useState();
 
+    function escrowExists(escrow, list) {
+        if (list) {
+            return list.filter(e => e.address === escrow.address).length > 0;
+        }
+        return escrows.filter(e => e.address === escrow.address).length > 0;
+    }
+
+    /**
+     * Replace any escrow with same address
+     * @param escrow
+     */
+    function setEscrowsAppend(escrow) {
+        console.debug(`setEscrowsAppend - add escrow w address: ${escrow.address} to filtered list:`)
+        console.debug(`  ${JSON.stringify(escrows, null, 2)}`);
+        setEscrows(prevEscrow => {
+            if (escrowExists(escrow, prevEscrow)) {
+                console.debug(`    NOPE - escrow exists in list`)
+                return prevEscrow
+            } else {
+                return [...prevEscrow, escrow]
+            }
+        });
+        console.log(`   ... escrows size now: ${escrows.length}`)
+    }
+
     useEffect(() => {
         async function getAccounts() {
             const accounts = await provider.send('eth_requestAccounts', []);
@@ -24,19 +49,34 @@ function App() {
             setSigner(provider.getSigner());
         }
 
+        async function readStoredInstances() {
+            const existing = read();
+            for (let address of Object.keys(existing)) {
+                const status = existing[address].status;
+                switch (status) {
+                    case "deployed":
+                        deployedContract(address, existing[address]);
+                        break;
+                    case "approved":
+                        approvedContract(address, existing[address]);
+                        break;
+                    default:
+                        throw new Error(`Unknown status: ${status}`)
+                }
+
+            }
+
+        }
+
         getAccounts();
+        readStoredInstances();
     }, [account]);
 
     async function newContract() {
         const beneficiary = document.getElementById('beneficiary').value;
         const arbiter = document.getElementById('arbiter').value;
         const value = ethers.utils.parseEther(document.getElementById('eth').value);
-        return doNewContract({ beneficiary, arbiter, value, signer });
-    }
-
-    async function doNewContract({ beneficiary, arbiter, value, signer }) {
         const escrowContract = await deploy(signer, arbiter, beneficiary, value);
-
 
         const escrow = {
             address: escrowContract.address,
@@ -61,7 +101,40 @@ function App() {
 
             await approve(escrowContract, signer);
         }
-        setEscrows([...escrows, escrow]);
+        setEscrowsAppend(escrow);
+        store(escrow);
+    }
+
+    async function deployedContract(address, escrow) {
+        console.log(`deployedContract: ${JSON.stringify(escrow)}`);
+        if (escrowExists(escrow)) {
+            console.log(`  deployed contract already read-in`);
+            return;
+        }
+        // const escrowContract = deployExisting(address, signer);
+        // escrow.handleApprove = async () => {
+        //     escrowContract.on('Approved', () => {
+        //         document.getElementById(escrowContract.address).className =
+        //             'complete';
+        //         document.getElementById(escrowContract.address).innerText =
+        //             "✓ It's been approved!";
+        //         escrow.status = "approved";
+        //         store(escrow);
+        //     });
+        //
+        //     await approve(escrowContract, signer);
+        // }
+        setEscrowsAppend(escrow);
+        store(escrow);
+    }
+
+    async function approvedContract(address, escrow) {
+        console.log(`approvedContract: ${JSON.stringify(escrow)}`);
+        if (escrowExists(escrow)) {
+            console.log(`  approved contract already read-in`);
+            return;
+        }
+        setEscrowsAppend(escrow);
         store(escrow);
     }
 
