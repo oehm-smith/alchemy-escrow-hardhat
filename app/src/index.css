@@ -10,6 +10,7 @@ body {
     padding: 40px;
     border: 1px solid #000000;
     background-color: #c74747;
+    min-width: 650px;
 }
 
 h1 {
