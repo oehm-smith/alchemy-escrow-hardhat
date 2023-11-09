@@ -16,7 +16,8 @@ body {
     grid-template-areas:
     "header  header"
     "dataEntry readme"
-    "existingContracts existingContracts";
+    "existingContracts existingContracts"
+    "footer footer";
     background-color: #fff;
     color: #444;
 }
@@ -28,7 +29,8 @@ body {
         "header"
         "readme"
         "dataEntry"
-        "existingContracts";
+        "existingContracts"
+        "footer";
     }
     .contract, .existing-contracts {
         min-width: 450px;
@@ -49,6 +51,10 @@ body {
 
 .readMe {
     grid-area: readme;
+}
+
+.footer {
+    grid-area: footer;
 }
 
 .contract, .existing-contracts {
@@ -162,4 +168,12 @@ input[type="text"] {
 .Header > p {
     text-shadow: 1px 1px 1px #bbb;
     text-align: center;
+}
+
+.footer {
+    background-color: #83d555;
+    padding: 10px;
+    margin: 20px;
+    text-align: center;
+    font-size: 1.2em;
 }

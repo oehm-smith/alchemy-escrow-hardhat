@@ -235,6 +235,10 @@ function App() {
                         })}
                     </div>
                 </div>
+
+                <div className="footer">
+                    &copy; <a href="mailto:brooke@tintuna.com">Brooke Smith</a> 2023 - <a href="https://github.com/oehm-smith/alchemy-escrow-hardhat">https://github.com/oehm-smith/alchemy-escrow-hardhat</a>
+                </div>
             </div>
         </>
     );
