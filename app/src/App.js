@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { deploy, deployExisting } from './deploy';
 import Escrow from './Escrow';
-import { read, store } from "./storage"
+import { read, remove, store } from "./storage"
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -36,6 +36,21 @@ function App() {
                 return prevEscrow
             } else {
                 return [...prevEscrow, escrow]
+            }
+        });
+        console.log(`   ... escrows size now: ${escrows.length}`)
+    }
+
+    function removeEscrow(escrow) {
+        console.debug(`removeEscrow - remove escrow w address: ${escrow.address} to filtered list:`)
+        console.debug(`  ${JSON.stringify(escrows, null, 2)}`);
+        setEscrows(prevEscrow => {
+            if (escrowExists(escrow, prevEscrow)) {
+                console.debug(`    YEP - escrow exists in list`)
+                return prevEscrow.filter(e => e.address !== escrow.address);
+            } else {
+                console.debug(`    NOPE - escrow doesn't exist in list`)
+                return prevEscrow
             }
         });
         console.log(`   ... escrows size now: ${escrows.length}`)
@@ -133,6 +148,10 @@ function App() {
         if (escrowExists(escrow)) {
             console.log(`  approved contract already read-in`);
             return;
+        }
+        escrow.handleRemove = async () => {
+            removeEscrow(escrow);
+            remove(escrow);
         }
         setEscrowsAppend(escrow);
         store(escrow);

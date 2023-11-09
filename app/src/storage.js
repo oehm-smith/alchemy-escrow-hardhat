@@ -21,7 +21,7 @@ const utf8Decoder = new TextDecoder();
  */
 export const store = (escrow) => {
     // let escrows64 = window.localStorage.getItem(key)
-    let escrows = read();
+    // let escrows = read();
     // if (escrows64) {
     //     const escrowsText = ethers.utils.base64.decode(escrows64);
     //     escrows = JSON.parse(escrowsText);
@@ -86,4 +86,12 @@ export const read = () => {
         console.log(`The escrows storage is currently empty.`)
         return {};
     }
+}
+
+export const remove = (escrow) => {
+    const escrowsObj = read();
+    delete escrowsObj[escrow.address];
+    const escrowsString = JSON.stringify(escrowsObj);
+    window.localStorage.setItem(key, escrowsString);
+    console.log(`Removed escrow '${escrow.address}' and stored escrow in array - size now: ${Object.keys(escrowsObj).length}`)
 }
