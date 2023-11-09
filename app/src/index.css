@@ -1,7 +1,54 @@
 body {
     background-color: #83d555;
-    display: flex;
     font-family: 'Baskerville', sans-serif;
+}
+
+.container {
+    border: medium solid #11a92f;
+    padding: 10px;
+    margin: 2px;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /* new */
+    display: grid;
+    grid-gap: 10px;
+    grid-template-rows: 120px 500px auto;
+    grid-template-areas:
+    "header  header"
+    "dataEntry readme"
+    "existingContracts existingContracts";
+    background-color: #fff;
+    color: #444;
+}
+
+@media (max-width: 900px) {
+    .container {
+        grid-template-rows: 120px 500px auto;
+        grid-template-areas:
+        "header"
+        "readme"
+        "dataEntry"
+        "existingContracts";
+    }
+    .contract, .existing-contracts {
+        min-width: 450px;
+    }
+}
+
+.Header {
+    grid-area: header;
+}
+
+.contract {
+    grid-area: dataEntry;
+}
+
+.existing-contracts {
+    grid-area: existingContracts;
+}
+
+.readMe {
+    grid-area: readme;
 }
 
 .contract, .existing-contracts {
@@ -10,7 +57,7 @@ body {
     padding: 40px;
     border: 1px solid #000000;
     background-color: #c74747;
-    min-width: 650px;
+    min-width: 550px;
 }
 
 h1 {
@@ -83,7 +130,7 @@ input[type="text"] {
 
 .existing-contract .complete {
     color: #5aa75a;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 /* My bling additions */
@@ -115,10 +162,4 @@ input[type="text"] {
 .Header > p {
     text-shadow: 1px 1px 1px #bbb;
     text-align: center;
-}
-
-.container {
-    border: medium solid #11a92f;
-    padding: 10px;
-    margin: 2px;
 }
