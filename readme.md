@@ -27,3 +27,10 @@ available to the front-end. This path configuration can be found in the `hardhat
 To run the front-end application run `npm start` from the `/app` directory.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+----
+
+# Dev Notes
+
+To get deployment on Vercel working I had to include the hardhat compiled contract in `src/artifacts` to the git repository.
+
+The only other change to a default Vercel project was to set the `root directory` to `app`.
