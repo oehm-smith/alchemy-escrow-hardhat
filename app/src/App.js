@@ -184,20 +184,20 @@ function App() {
                                     <li>The beneficiary is who is selling their goods and receiving the deposit /
                                         payment.
                                     </li>
-                                    <li>The deposit amount is in Ethereum. (Coming soon! Deposit from a larger seelction of
+                                    <li>The deposit amount is in Ethereum. (Coming soon! Deposit from a larger selection of
                                         cryptocurrencies).
                                     </li>
                                 </ol>
                             </li>
-                            <li>...and hit deposit</li>
+                            <li>...and hit <code>Deploy</code></li>
                             <li>The Arbiter logs in with their Web3 wallet to confirm the deposit and coordinate the
                                 physical transfer of the goods being sold.
                             </li>
-                            <li>Once happy they hit approve and the funds will be transferred to the beneficiary /
+                            <li>Once happy they hit <code>Approve</code> and the funds will be transferred to the beneficiary /
                                 seller.
                             </li>
                             <li>The Arbiter can see all deposits waiting for approval and a historical list of those
-                                they have already approved.
+                                they have already approved.  They can also return at a later date and reopen the page since the list is persistent.
                             </li>
                             <li>They can hit the <code>Delete</code> button to remove from the list.</li>
                         </ol>
