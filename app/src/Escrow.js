@@ -1,3 +1,5 @@
+import { ethers } from "ethers"
+
 export default function Escrow({
                                    address, arbiter, beneficiary, value, date, handleApprove, handleRemove, status
                                }) {
@@ -42,6 +44,7 @@ export default function Escrow({
                 throw new Error(`Unknown status: ${status}`);
         }
     })();
+    const ethValue = ethers.utils.formatUnits(ethers.utils.parseUnits(value, 0), "ether");
     return (<div className="existing-contract">
         <ul className="fields">
             <li>
@@ -58,7 +61,7 @@ export default function Escrow({
             </li>
             <li>
                 <div> Value</div>
-                <div> {value} </div>
+                <div> {ethValue} Eth ({value} wei)</div>
             </li>
             {buttonMarkup}
 
